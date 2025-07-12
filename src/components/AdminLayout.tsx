@@ -110,7 +110,16 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             {/* Theme Toggle */}
             <ThemeToggle />
             
-            <NotificationBadge onClick={toggleNotifications} />
+            <div className="relative">
+              <NotificationBadge onClick={toggleNotifications} />
+              
+              {/* Notification Panel */}
+              <AnimatePresence>
+                {isNotificationOpen && (
+                  <NotificationPanel onClose={() => setIsNotificationOpen(false)} />
+                )}
+              </AnimatePresence>
+            </div>
             
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground">
@@ -128,13 +137,6 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
             </div>
           </div>
         </header>
-        
-        {/* Notification Panel */}
-        <AnimatePresence>
-          {isNotificationOpen && (
-            <NotificationPanel onClose={() => setIsNotificationOpen(false)} />
-          )}
-        </AnimatePresence>
         
         {/* Main content */}
         <AnimatePresence mode="wait">
