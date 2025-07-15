@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-// const backendUrl = "https://likes.io/api";
-const backendUrl = "http://localhost:5005/api";
+const backendUrl = "https://likes.io/api";
+// const backendUrl = "http://localhost:5005/api";
 
 export const signin = async (email: string, password: string) => {
-  console.log("email and password ", email, password);
+  // console.log("email and password ", email, password);
   try {
     const response = await axios.post(`${backendUrl}/auth/login`, { email, password });
     
@@ -25,7 +25,7 @@ export const signin = async (email: string, password: string) => {
 
 export const signout = async () => {
   try {
-    console.log("response");
+
     const token = localStorage.getItem('admin_token');
     
     const response = await axios.post(`${backendUrl}/auth/logout`, {}, {

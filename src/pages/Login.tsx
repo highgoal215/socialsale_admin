@@ -31,10 +31,10 @@ const Login = () => {
   const { toast } = useToast();
   const { login } = useAuth();
 
-  // Debug: Log when component renders
-  useEffect(() => {
-    console.log('Login component rendered');
-  });
+  // // Debug: Log when component renders
+  // useEffect(() => {
+  //   console.log('Login component rendered');
+  // });
 
   const formConfig = useMemo(() => ({
     resolver: zodResolver(loginFormSchema),

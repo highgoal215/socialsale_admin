@@ -34,7 +34,7 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
 
   const handleLogout = async () => {
     const response = await signout();
-    console.log(JSON.stringify(response));
+    // console.log(JSON.stringify(response));
     if (response.message === "Logged out successfully") {
       logout();
       window.location.href = "/login";

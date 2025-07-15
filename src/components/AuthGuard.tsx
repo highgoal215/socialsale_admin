@@ -11,11 +11,11 @@ const useAuth = () => {
       const wasAuthenticated = isAuthenticated;
       const newAuthState = !!token;
       
-      console.log('AuthGuard: Checking authentication', { 
-        wasAuthenticated, 
-        newAuthState, 
-        hasToken: !!token 
-      });
+      // console.log('AuthGuard: Checking authentication', { 
+      //   wasAuthenticated, 
+      //   newAuthState, 
+      //   hasToken: !!token 
+      // });
       
       setIsAuthenticated(newAuthState);
       setIsLoading(false);
@@ -25,7 +25,7 @@ const useAuth = () => {
   }, []);
 
   const login = useCallback((email: string, password: string, userData: any): Promise<boolean> => {
-    console.log('AuthGuard: Login called');
+    // console.log('AuthGuard: Login called');
     return new Promise((resolve) => {
       // Token is already stored by the signin function
       setIsAuthenticated(true);
@@ -34,7 +34,7 @@ const useAuth = () => {
   }, []);
 
   const logout = useCallback(() => {
-    console.log('AuthGuard: Logout called');
+    // console.log('AuthGuard: Logout called');
     localStorage.removeItem('admin_token');
     localStorage.removeItem('admin_user');
     setIsAuthenticated(false);
@@ -59,15 +59,15 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log('AuthGuard: Render', { 
-    isAuthenticated, 
-    isLoading, 
-    pathname: location.pathname 
-  });
+  // console.log('AuthGuard: Render', { 
+  //   isAuthenticated, 
+  //   isLoading, 
+  //   pathname: location.pathname 
+  // });
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated && location.pathname !== '/login') {
-      console.log('AuthGuard: Redirecting to login');
+      // console.log('AuthGuard: Redirecting to login');
       // Redirect to login page if not authenticated
       navigate('/login', { replace: true });
     }
@@ -75,7 +75,7 @@ export const AuthGuard = ({ children }: AuthGuardProps) => {
 
   useEffect(() => {
     if (isAuthenticated && location.pathname === '/login') {
-      console.log('AuthGuard: Redirecting to dashboard');
+      // console.log('AuthGuard: Redirecting to dashboard');
       navigate('/dashboard', { replace: true });
     }
   }, [isAuthenticated, location.pathname, navigate]);

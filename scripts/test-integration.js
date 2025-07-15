@@ -15,14 +15,14 @@ const testAuth = async () => {
     });
     
     if (response.data.success) {
-      console.log('✅ Authentication successful');
+      // console.log('✅ Authentication successful');
       return response.data.data.token;
     } else {
-      console.log('❌ Authentication failed');
+      // console.log('❌ Authentication failed');
       return null;
     }
   } catch (error) {
-    console.log('❌ Authentication error:', error.message);
+    // console.log('❌ Authentication error:', error.message);
     return null;
   }
 };
@@ -35,40 +35,40 @@ const testCategories = async (token) => {
     });
     
     if (response.data.success) {
-      console.log(`✅ Categories loaded: ${response.data.data.length}`);
+      // console.log(`✅ Categories loaded: ${response.data.data.length}`);
       return response.data.data;
     } else {
-      console.log('❌ Categories failed');
+      // console.log('❌ Categories failed');
       return [];
     }
   } catch (error) {
-    console.log('❌ Categories error:', error.message);
+    // console.log('❌ Categories error:', error.message);
     return [];
   }
 };
 
 const testBlogPosts = async (token) => {
-  console.log('📝 Testing blog posts endpoint...');
+  // console.log('📝 Testing blog posts endpoint...');
   try {
     const response = await axios.get(`${API_URL}/blog`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     
     if (response.data.success) {
-      console.log(`✅ Blog posts loaded: ${response.data.data.length}`);
+      // console.log(`✅ Blog posts loaded: ${response.data.data.length}`);
       return response.data.data;
     } else {
-      console.log('❌ Blog posts failed');
+      // console.log('❌ Blog posts failed');
       return [];
     }
   } catch (error) {
-    console.log('❌ Blog posts error:', error.message);
+    // console.log('❌ Blog posts error:', error.message);
     return [];
   }
 };
 
 const testImageUpload = async (token) => {
-  console.log('🖼️ Testing image upload endpoint...');
+  // console.log('🖼️ Testing image upload endpoint...');
   try {
     // Create a simple test image (1x1 pixel PNG)
     const testImageBuffer = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64');
@@ -84,14 +84,14 @@ const testImageUpload = async (token) => {
     });
     
     if (response.data.success) {
-      console.log('✅ Image upload successful');
+      // console.log('✅ Image upload successful');
       return response.data.data.url;
     } else {
-      console.log('❌ Image upload failed');
+      // console.log('❌ Image upload failed');
       return null;
     }
   } catch (error) {
-    console.log('❌ Image upload error:', error.message);
+    // console.log('❌ Image upload error:', error.message);
     return null;
   }
 };
@@ -113,58 +113,55 @@ const testCreatePost = async (token, categories) => {
     });
     
     if (response.data.success) {
-      console.log('✅ Blog post created successfully');
+      // console.log('✅ Blog post created successfully');
       return response.data.data;
     } else {
-      console.log('❌ Blog post creation failed');
+      // console.log('❌ Blog post creation failed');
       return null;
     }
   } catch (error) {
-    console.log('❌ Blog post creation error:', error.message);
+    // console.log('❌ Blog post creation error:', error.message);
     return null;
   }
 };
 
 // Main test function
 const runIntegrationTests = async () => {
-  console.log('🧪 Starting Blog Integration Tests...\n');
+  // console.log('🧪 Starting Blog Integration Tests...\n');
   
   // Test authentication
   const token = await testAuth();
   if (!token) {
-    console.log('\n❌ Authentication failed. Cannot proceed with tests.');
+    // console.log('\n❌ Authentication failed. Cannot proceed with tests.');
     return;
   }
   
-  console.log('');
-  
+
   // Test categories
   const categories = await testCategories(token);
-  
-  console.log('');
+
   
   // Test blog posts
   const posts = await testBlogPosts(token);
   
-  console.log('');
+ 
   
   // Test image upload
   const imageUrl = await testImageUpload(token);
-  
-  console.log('');
+ 
   
   // Test post creation
   const newPost = await testCreatePost(token, categories);
   
-  console.log('\n🎉 Integration tests completed!');
+  // console.log('\n🎉 Integration tests completed!');
   
   // Summary
-  console.log('\n📊 Test Summary:');
-  console.log(`- Authentication: ${token ? '✅' : '❌'}`);
-  console.log(`- Categories: ${categories.length > 0 ? '✅' : '❌'} (${categories.length} found)`);
-  console.log(`- Blog Posts: ${posts.length >= 0 ? '✅' : '❌'} (${posts.length} found)`);
-  console.log(`- Image Upload: ${imageUrl ? '✅' : '❌'}`);
-  console.log(`- Post Creation: ${newPost ? '✅' : '❌'}`);
+  // console.log('\n📊 Test Summary:');
+  // console.log(`- Authentication: ${token ? '✅' : '❌'}`);
+  // console.log(`- Categories: ${categories.length > 0 ? '✅' : '❌'} (${categories.length} found)`);
+  // console.log(`- Blog Posts: ${posts.length >= 0 ? '✅' : '❌'} (${posts.length} found)`);
+  // console.log(`- Image Upload: ${imageUrl ? '✅' : '❌'}`);
+  // console.log(`- Post Creation: ${newPost ? '✅' : '❌'}`);
 };
 
 // Run tests

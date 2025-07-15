@@ -165,9 +165,6 @@ const Blog = () => {
       });
     }
   };
-  console.log("filteredPosts>>>>>>>>>>>>>>>", filteredPosts)
-  if(filteredPosts.length!=0)
-  console.log("Id>>>>>>>>>>>>>", filteredPosts[0]._id)
 
   const getCategoryName = (categoryId: string) => {
     const category = categories.find(cat => cat.name === categoryId);

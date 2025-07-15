@@ -107,7 +107,7 @@ const Orders = () => {
         if (response && response.success) {
           setOrders(response.data || []);
           setPagination(response.pagination || { total: 0, page: 1, pages: 0 });
-          console.log("Orders fetched successfully:", response);
+          // console.log("Orders fetched successfully:", response);
         } else {
           console.error("Invalid response format:", response);
           setError('Received invalid response format from server');
@@ -127,7 +127,7 @@ const Orders = () => {
 
     fetchOrders();
   }, [typeFilter, orderId, toast]);
-  console.log("This is orders:>>>>>>>>>>", orders);
+
 
   // Show order details if an orderId is provided, otherwise show the orders table
   if (orderId) {

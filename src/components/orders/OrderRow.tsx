@@ -21,7 +21,7 @@ export const OrderRow =  ({
         .then((response) => {
           if (response && response.data) {
             setService(response.data);
-            console.log('Service data:', response.data);
+            // console.log('Service data:', response.data);
           }
         })
         .catch((error) => {

@@ -84,7 +84,7 @@ const Categories = () => {
     category.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     category.slug.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  console.log("Categories>>>>>>>>", filteredCategories)
+
 
   const handleCreateCategory = async (category: BlogCategory) => {
     try {

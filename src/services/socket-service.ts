@@ -37,13 +37,13 @@ class SocketService {
     if (!this.socket) return;
 
     this.socket.on('connect', () => {
-      console.log('Socket connected');
+      // console.log('Socket connected');
       this.isConnected = true;
       this.reconnectAttempts = 0;
     });
 
     this.socket.on('disconnect', () => {
-      console.log('Socket disconnected');
+      // console.log('Socket disconnected');
       this.isConnected = false;
     });
 
@@ -58,7 +58,7 @@ class SocketService {
     });
 
     this.socket.on('reconnect', (attemptNumber) => {
-      console.log(`Socket reconnected after ${attemptNumber} attempts`);
+      // console.log(`Socket reconnected after ${attemptNumber} attempts`);
       this.isConnected = true;
       this.reconnectAttempts = 0;
     });

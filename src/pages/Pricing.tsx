@@ -80,7 +80,6 @@ const Pricing = () => {
       setError(null);
       
       try {
-        console.log('Attempting to connect to backend...');
         const servicesData = await ServiceService.getAllServices();
         setServices(servicesData);
         setIsBackendAvailable(true);
@@ -92,8 +91,6 @@ const Pricing = () => {
         } catch (error) {
           console.warn('Could not fetch supplier services:', error);
         }
-        
-        console.log('✅ Backend connection successful');
         
       } catch (error: any) {
         console.warn('Backend not available:', error.message);
@@ -194,10 +191,7 @@ const Pricing = () => {
     services.map(service => service.category || 'Instagram').filter(Boolean)
   ));
   
-  // Debug: Log categories for troubleshooting
-  console.log('Available categories:', uniqueCategories);
-  console.log('Current category filter:', currentCategoryFilter);
-  console.log('Services with categories:', services.map(s => ({ name: s.name, category: s.category })));
+
 
   // Helper to get correct supplierServiceId
   const getSupplierServiceId = (type: ServiceType, quality: ServiceQuality) => {

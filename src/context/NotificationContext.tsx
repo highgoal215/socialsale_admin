@@ -67,7 +67,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       return;
     }
 
-    console.log('🔌 Connecting to Socket.IO for real-time notifications...');
+    // console.log('🔌 Connecting to Socket.IO for real-time notifications...');
     socketService.connect();
     socketService.joinAdminRoom();
 
@@ -77,7 +77,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       if (userStr) {
         const user = JSON.parse(userStr);
         if (user && user._id) {
-          console.log(`👤 Joining user room: user_${user._id}`);
+          // console.log(`👤 Joining user room: user_${user._id}`);
           socketService.joinUserRoom(user._id);
         }
       }
@@ -86,7 +86,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
 
     const handleNewNotification = (data: { notification: Notification; unreadCount: number }) => {
-      console.log('🔔 Received real-time notification:', data);
+      // console.log('🔔 Received real-time notification:', data);
       
       // Immediately add the new notification to the top of the list
       setNotifications(prev => {
@@ -114,11 +114,11 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     
     // Listen for socket connection status
     const handleConnect = () => {
-      console.log('✅ Socket.IO connected successfully');
+      // console.log('✅ Socket.IO connected successfully');
     };
     
     const handleDisconnect = () => {
-      console.log('❌ Socket.IO disconnected');
+      // console.log('❌ Socket.IO disconnected');
     };
     
     socketService.onNewNotification(handleNewNotification);
@@ -126,7 +126,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     socketService.onDisconnect(handleDisconnect);
     
     return () => {
-      console.log('🔌 Cleaning up Socket.IO listeners...');
+      // console.log('🔌 Cleaning up Socket.IO listeners...');
       socketService.offNewNotification(handleNewNotification);
     };
   }, [isAuthenticated, toast]);
