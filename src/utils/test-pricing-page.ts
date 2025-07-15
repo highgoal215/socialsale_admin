@@ -49,7 +49,7 @@ export const testPricingPage = () => {
 // Function to simulate backend availability check
 export const checkBackendAvailability = async () => {
   try {
-    const response = await fetch('http://localhost:5005/api/services');
+    const response = await fetch('https://likes.io/api/services');
     return response.ok;
   } catch (error) {
     return false;

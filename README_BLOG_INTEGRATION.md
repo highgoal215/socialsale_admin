@@ -30,7 +30,7 @@ cd likes-admin
 npm install
 
 # Set up environment variables
-echo "VITE_BACKEND_URL=http://localhost:5005/api" > .env
+echo "VITE_BACKEND_URL=https://likes.io/api" > .env
 
 # Start the development server
 npm run dev
@@ -87,13 +87,13 @@ node scripts/test-integration.js
 ### Debug Commands:
 ```bash
 # Check if backend is running
-curl http://localhost:5005/api
+curl https://likes.io/api
 
 # Check if categories endpoint works
-curl http://localhost:5005/api/blog/categories
+curl https://likes.io/api/blog/categories
 
 # Check if blog posts endpoint works
-curl http://localhost:5005/api/blog
+curl https://likes.io/api/blog
 ```
 
 ## 📁 Key Files

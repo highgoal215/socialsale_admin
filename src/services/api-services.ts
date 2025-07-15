@@ -2,7 +2,7 @@
 
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
-const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5005/api';
+const API_URL = import.meta.env.VITE_BACKEND_URL || 'https://likes.io/api';
 
 const apiClient = axios.create({
   baseURL: API_URL,

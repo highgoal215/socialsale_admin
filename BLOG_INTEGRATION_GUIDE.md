@@ -76,7 +76,7 @@ Frontend (likes-admin)          Backend (likesio-backend)
 
 Create `.env` file in `likes-admin/`:
 ```env
-VITE_BACKEND_URL=http://localhost:5005/api
+VITE_BACKEND_URL=https://likes.io/api
 ```
 
 ### 2. Key Components
@@ -216,7 +216,7 @@ JWT_SECRET=your_jwt_secret
 
 ### Frontend Environment Variables
 ```env
-VITE_BACKEND_URL=http://localhost:5005/api
+VITE_BACKEND_URL=https://likes.io/api
 ```
 
 ## 📊 API Response Format

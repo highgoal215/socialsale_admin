@@ -32,7 +32,7 @@ The notification system is designed to display notifications immediately when th
 
 ### Method 2: Using the API Endpoint
 ```bash
-curl -X POST http://localhost:5005/api/notifications/admin/test \
+curl -X POST https://likes.io/api/notifications/admin/test \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_ADMIN_TOKEN" \
   -d '{
