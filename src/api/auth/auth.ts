@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const backendUrl = "https://likes.io/api";
+const backendUrl = "https://api.likes.io/api";
 // const backendUrl = "http://localhost:5005/api";
 
 export const signin = async (email: string, password: string) => {
