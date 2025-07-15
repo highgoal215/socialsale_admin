@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // Configuration
-const API_URL = process.env.VITE_BACKEND_URL || 'https://likes.io/api';
+const API_URL = process.env.VITE_BACKEND_URL || 'https://api.likes.io';
 const ADMIN_EMAIL = 'admin@example.com';
 const ADMIN_PASSWORD = 'admin123';
 

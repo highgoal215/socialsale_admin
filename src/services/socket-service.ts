@@ -17,7 +17,7 @@ class SocketService {
   private initializeSocket() {
     if (this.isInitialized) return;
     
-    const API_URL ='http://localhost:5005';
+    const API_URL ='https://api.likes.io';
     
     this.socket = io(API_URL, {
       transports: ['websocket', 'polling'],
