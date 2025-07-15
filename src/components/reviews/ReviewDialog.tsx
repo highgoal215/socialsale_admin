@@ -36,7 +36,7 @@ import { Review } from '@/types/review';
 const formSchema = z.object({
   customerName: z.string().min(2, 'Name must be at least 2 characters'),
   avatarUrl: z.string().url('Please enter a valid URL').or(z.string().length(0)).optional(),
-  serviceType: z.enum(['followers', 'likes', 'views', 'comments']),
+      serviceType: z.enum(['followers', 'subscribers', 'likes', 'views', 'comments']),
   rating: z.number().min(1, 'Rating must be at least 1').max(5, 'Rating cannot exceed 5'),
   review: z.string().min(10, 'Review must be at least 10 characters'),
   featured: z.boolean().default(false),
@@ -190,6 +190,7 @@ export function ReviewDialog({ open, onOpenChange, review, onSave }: ReviewDialo
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="followers">Followers</SelectItem>
+                        <SelectItem value="subscribers">Subscribers</SelectItem>
                         <SelectItem value="likes">Likes</SelectItem>
                         <SelectItem value="views">Views</SelectItem>
                         <SelectItem value="comments">Comments</SelectItem>

@@ -4,7 +4,7 @@ export type OrderStatus = 'pending' | 'processing' | 'completed' | 'rejected';
 
 export interface SupplierOrderRequest {
   orderId: string;
-  serviceType: 'followers' | 'likes' | 'views' | 'comments';
+  serviceType: 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
   quantity: number;
   target: string; // Instagram handle or post URL
   customerEmail?: string;
@@ -18,11 +18,37 @@ export interface SupplierOrderResponse {
   status?: OrderStatus;
 }
 
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  message?: string;
+}
+
 export const SupplierService = {
+  // Configure API settings
+  configureApiSettings: async (apiKey: string, apiEndpoint: string): Promise<boolean> => {
+    try {
+      // Store in localStorage for now (in production, this should be sent to backend)
+      localStorage.setItem('supplier_api_key', apiKey);
+      localStorage.setItem('supplier_api_endpoint', apiEndpoint);
+      
+      // Test the connection by making a simple API call
+      const response = await ApiService.post('/supplier/test-connection', {
+        apiKey,
+        apiEndpoint
+      }) as ApiResponse;
+      
+      return response && response.success;
+    } catch (error) {
+      console.error('Error configuring API settings:', error);
+      return false;
+    }
+  },
+
   // Send order to supplier panel via backend
   sendOrderToSupplier: async (orderData: SupplierOrderRequest): Promise<SupplierOrderResponse> => {
     try {
-      const response = await ApiService.post('/orders/supplier-order', orderData);
+      const response = await ApiService.post('/orders/supplier-order', orderData) as ApiResponse;
       
       if (response && response.success) {
         return {
@@ -49,7 +75,7 @@ export const SupplierService = {
   // Check order status from supplier via backend
   checkOrderStatus: async (referenceId: string): Promise<SupplierOrderResponse> => {
     try {
-      const response = await ApiService.get(`/orders/supplier-status/${referenceId}`);
+      const response = await ApiService.get(`/orders/supplier-status/${referenceId}`) as ApiResponse;
       
       if (response && response.success) {
         return {
@@ -76,7 +102,7 @@ export const SupplierService = {
   // Cancel order with supplier via backend
   cancelOrder: async (referenceId: string): Promise<SupplierOrderResponse> => {
     try {
-      const response = await ApiService.post(`/orders/supplier-cancel/${referenceId}`);
+      const response = await ApiService.post(`/orders/supplier-cancel/${referenceId}`) as ApiResponse;
       
       if (response && response.success) {
         return {

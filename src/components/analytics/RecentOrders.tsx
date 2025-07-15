@@ -10,14 +10,8 @@ interface RecentOrdersProps {
   recentOrders: any[]; // Using any[] since we don't know the exact shape
 }
 
-// Default mock data to use if no orders are provided
-const defaultOrders = [
-  { id: 'ORD-1234', username: 'user_432', service: 'followers', quantity: 500, status: 'pending' },
-  { id: 'ORD-5678', username: 'influencer99', service: 'likes', quantity: 1200, status: 'completed' },
-  { id: 'ORD-9101', username: 'brand_official', service: 'views', quantity: 3000, status: 'completed' },
-  { id: 'ORD-1121', username: 'creator_studio', service: 'comments', quantity: 150, status: 'rejected' },
-  { id: 'ORD-3141', username: 'social_guru', service: 'followers', quantity: 750, status: 'pending' },
-];
+// Empty default orders - will be populated from backend
+const defaultOrders = [];
 
 // Status badge variants
 const statusVariants = {

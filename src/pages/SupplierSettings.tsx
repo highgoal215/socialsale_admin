@@ -29,7 +29,7 @@ const apiSettingsSchema = z.object({
 
 const testOrderSchema = z.object({
   orderId: z.string().min(1, "Order ID is required"),
-  serviceType: z.enum(['followers', 'likes', 'views', 'comments'], {
+        serviceType: z.enum(['followers', 'subscribers', 'likes', 'views', 'comments'], {
     required_error: "Please select a service type",
   }),
   quantity: z.coerce.number().int().positive("Quantity must be a positive number"),

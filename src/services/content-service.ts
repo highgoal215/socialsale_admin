@@ -12,69 +12,8 @@ export interface PageContent {
   lastUpdated: string;
 }
 
-// Mock content data
-let mockContent: PageContent[] = [
-  {
-    id: '1',
-    pageId: 'followers',
-    title: 'Instagram Followers',
-    subtitle: 'Grow your Instagram presence',
-    description: 'Boost your Instagram profile with real followers. Our service provides high-quality followers to enhance your social proof and credibility.',
-    features: [
-      'Real and active followers',
-      'Fast delivery',
-      'No password required',
-      '24/7 customer support',
-      'Safe and secure'
-    ],
-    lastUpdated: new Date().toISOString()
-  },
-  {
-    id: '2',
-    pageId: 'likes',
-    title: 'Instagram Likes',
-    subtitle: 'Increase engagement on your posts',
-    description: 'Get more likes on your Instagram posts to boost engagement and improve visibility in the algorithm.',
-    features: [
-      'High-quality likes',
-      'Instant delivery',
-      'No login required',
-      'Affordable packages',
-      'Completely safe'
-    ],
-    lastUpdated: new Date().toISOString()
-  },
-  {
-    id: '3',
-    pageId: 'views',
-    title: 'Instagram Views',
-    subtitle: 'Boost your video performance',
-    description: 'Increase views on your Instagram videos and Reels to improve reach and engagement metrics.',
-    features: [
-      'Real views',
-      'Quick delivery',
-      'No password needed',
-      'Affordable rates',
-      'Secure process'
-    ],
-    lastUpdated: new Date().toISOString()
-  },
-  {
-    id: '4',
-    pageId: 'comments',
-    title: 'Instagram Comments',
-    subtitle: 'Enhance engagement with quality comments',
-    description: 'Add thoughtful comments to your posts to increase engagement and make your content more appealing to new visitors.',
-    features: [
-      'Custom comments available',
-      'Natural language',
-      'Quick turnaround',
-      'No login required',
-      'Safe and reliable'
-    ],
-    lastUpdated: new Date().toISOString()
-  }
-];
+// Empty content data - will be populated from backend
+let mockContent: PageContent[] = [];
 
 // Simulate API delay
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

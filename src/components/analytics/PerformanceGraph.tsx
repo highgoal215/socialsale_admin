@@ -25,25 +25,9 @@ interface PerformanceGraphProps {
   period: Period;
 }
 
-// Mock data generator
+// Empty data generator - will be populated from backend
 const generateData = (days = 7) => {
-  const data = [];
-  const now = new Date();
-  
-  for (let i = days - 1; i >= 0; i--) {
-    const date = new Date();
-    date.setDate(now.getDate() - i);
-    
-    data.push({
-      date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      followers: Math.floor(Math.random() * 500) + 1000,
-      likes: Math.floor(Math.random() * 800) + 1500,
-      views: Math.floor(Math.random() * 1200) + 3000,
-      comments: Math.floor(Math.random() * 200) + 300,
-    });
-  }
-  
-  return data;
+  return [];
 };
 
 interface TimeRange {
@@ -128,7 +112,7 @@ export const PerformanceGraph = ({ salesData, period }: PerformanceGraphProps) =
   };
 
   const getAverages = () => {
-    if (!data.length) return { followers: 0, likes: 0, views: 0, comments: 0 };
+    if (!data.length) return { followers: 0, subscribers: 0, likes: 0, views: 0, comments: 0 };
     
     const sum = data.reduce((acc, item) => {
       return {
@@ -137,7 +121,7 @@ export const PerformanceGraph = ({ salesData, period }: PerformanceGraphProps) =
         views: acc.views + item.views,
         comments: acc.comments + item.comments
       };
-    }, { followers: 0, likes: 0, views: 0, comments: 0 });
+    }, { followers: 0, subscribers: 0, likes: 0, views: 0, comments: 0 });
     
     return {
       followers: Math.round(sum.followers / data.length),

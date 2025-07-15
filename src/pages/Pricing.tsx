@@ -31,6 +31,7 @@ const Pricing = () => {
   // Service type icons (like in OrdersTable)
   const serviceIcons = {
     followers: <Users size={16} className="text-blue-500" />,
+    subscribers: <Youtube size={16} className="text-red-500" />,
     likes: <Heart size={16} className="text-red-500" />,
     views: <Eye size={16} className="text-purple-500" />,
     comments: <MessageCircle size={16} className="text-green-500" />
@@ -67,25 +68,22 @@ const Pricing = () => {
   const [isDeleting, setIsDeleting] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isBackendAvailable, setIsBackendAvailable] = useState(false);
-  const [mockMode, setMockMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   const tableRef = useRef<HTMLDivElement>(null);
   const [isPageTransitioning, setIsPageTransitioning] = useState(false);
 
-  // Fetch services with fallback to mock data
+  // Fetch services from backend
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
       setError(null);
       
       try {
-        // First, try to fetch from real backend
         console.log('Attempting to connect to backend...');
         const servicesData = await ServiceService.getAllServices();
         setServices(servicesData);
         setIsBackendAvailable(true);
-        setMockMode(false);
         
         // Try to fetch supplier services
         try {
@@ -96,58 +94,16 @@ const Pricing = () => {
         }
         
         console.log('✅ Backend connection successful');
-        // toast({
-        //   title: "Connected to Backend",
-        //   description: "Using real service data from backend",
-        //   variant: "default",
-        // });
         
       } catch (error: any) {
-        console.warn('Backend not available, falling back to mock data:', error.message);
+        console.warn('Backend not available:', error.message);
         setIsBackendAvailable(false);
-        setMockMode(true);
-        
-        // Fallback to mock data
-        try {
-          const mockData = await PricingService.getAllPriceTiers();
-          // Convert mock data to Service format
-          const convertedServices: Service[] = mockData.map((tier, index) => ({
-            _id: tier.id,
-            name: `Instagram ${tier.service.charAt(0).toUpperCase() + tier.service.slice(1)} - ${tier.quantity}`,
-            type: tier.service,
-            category: 'Instagram',
-            quality: 'general',
-            description: `High-quality Instagram ${tier.service} service`,
-            price: tier.price,
-            supplierPrice: tier.price * 0.6, // Mock supplier price
-            minQuantity: tier.quantity,
-            maxQuantity: tier.quantity * 10,
-            quantity: tier.quantity,
-            originalPrice: tier.originalPrice,
-            popular: tier.popular || false,
-            active: true,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          }));
-          
-          setServices(convertedServices);
-          setError(null);
-          
-          toast({
-            title: "Using Mock Data",
-            description: "Backend not available, using demo data",
-            variant: "default",
-          });
-          
-        } catch (mockError) {
-          console.error('Error loading mock data:', mockError);
-          setError('Failed to load any data. Please check your connection.');
-          toast({
-            title: "Error",
-            description: "Failed to load data from any source",
-            variant: "destructive",
-          });
-        }
+        setError('Backend not available. Please check your connection.');
+        toast({
+          title: "Error",
+          description: "Backend not available. Please check your connection.",
+          variant: "destructive",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -247,6 +203,7 @@ const Pricing = () => {
   const getSupplierServiceId = (type: ServiceType, quality: ServiceQuality) => {
     const ids = {
       followers: { general: '2183', premium: '3305' },
+      subscribers: { general: '2183', premium: '3305' },
       likes: { general: '1782', premium: '1761' },
       views: { general: '8577', premium: '340' },
       comments: { general: '1234', premium: '5678' }
@@ -265,63 +222,26 @@ const Pricing = () => {
         // Use the actual quantity value from the form, fallback to minQuantity if not set
         quantity: newService.quantity || newService.minQuantity || 100
       };
-      if (mockMode) {
-        // Handle mock mode
-        const mockTier: Omit<PriceTier, 'id'> = {
-          service: serviceToCreate.type,
-          quantity: serviceToCreate.quantity || serviceToCreate.minQuantity || 100,
-          price: serviceToCreate.price,
-          originalPrice: serviceToCreate.price * 1.2,
-          popular: serviceToCreate.popular
-        };
-        
-        const createdTier = await PricingService.addPriceTier(mockTier);
-        const convertedService: Service = {
-          _id: createdTier.id,
-          name: serviceToCreate.name,
-          type: serviceToCreate.type,
-          category: serviceToCreate.category,
-          quality: serviceToCreate.quality,
-          description: serviceToCreate.description,
-          price: serviceToCreate.price,
-          supplierPrice: serviceToCreate.supplierPrice,
-          minQuantity: serviceToCreate.minQuantity,
-          maxQuantity: serviceToCreate.maxQuantity,
-          quantity: serviceToCreate.quantity,
-          popular: serviceToCreate.popular || false,
-          active: serviceToCreate.active || true,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        };
-        
-        setServices([...services, convertedService]);
-        setIsAddDialogOpen(false);
+      
+      // Handle real backend mode
+      const validation = ServiceService.validateServiceData(serviceToCreate);
+      if (!validation.isValid) {
         toast({
-          title: "Service created (Mock)",
-          description: `Created new ${serviceToCreate.type} service successfully`,
-          variant: "default",
+          title: "Validation Error",
+          description: validation.errors.join(', '),
+          variant: "destructive",
         });
-      } else {
-        // Handle real backend mode
-        const validation = ServiceService.validateServiceData(serviceToCreate);
-        if (!validation.isValid) {
-          toast({
-            title: "Validation Error",
-            description: validation.errors.join(', '),
-            variant: "destructive",
-          });
-          return;
-        }
-
-        const createdService = await ServiceService.createService(serviceToCreate);
-        setServices([...services, createdService]);
-        setIsAddDialogOpen(false);
-        toast({
-          title: "Service created",
-          description: `Created new ${serviceToCreate.type} service successfully`,
-          variant: "default",
-        });
+        return;
       }
+
+      const createdService = await ServiceService.createService(serviceToCreate);
+      setServices([...services, createdService]);
+      setIsAddDialogOpen(false);
+      toast({
+        title: "Service created",
+        description: `Created new ${serviceToCreate.type} service successfully`,
+        variant: "default",
+      });
       
       // Reset form
       setNewService({
@@ -360,60 +280,31 @@ const Pricing = () => {
     
     setIsUpdating(true);
     try {
-      if (mockMode) {
-        // Handle mock mode
-        const mockTier: PriceTier = {
-          id: editingService._id,
-          service: editingService.type,
-          quantity: editingService.quantity || editingService.minQuantity || 100,
-          price: editingService.price,
-          originalPrice: editingService.originalPrice || editingService.price * 1.2,
-          popular: editingService.popular
-        };
-        
-        const updatedTier = await PricingService.updatePriceTier(mockTier);
-        const convertedService: Service = {
-          ...editingService,
-          price: updatedTier.price,
-          originalPrice: updatedTier.originalPrice,
-          popular: updatedTier.popular || false
-        };
-        
-        setServices(services.map(s => s._id === convertedService._id ? convertedService : s));
-        setEditingService(null);
-        
-        toast({
-          title: "Service updated (Mock)",
-          description: "The service has been updated successfully",
-          variant: "default",
-        });
-      } else {
-        // Handle real backend mode
-        const updateData = {
-          name: editingService.name,
-          description: editingService.description,
-          price: editingService.price,
-          supplierPrice: editingService.supplierPrice,
-          minQuantity: editingService.minQuantity,
-          maxQuantity: editingService.maxQuantity,
-          quantity: editingService.quantity,
-          deliverySpeed: editingService.deliverySpeed,
-          refillAvailable: editingService.refillAvailable,
-          popular: editingService.popular,
-          featured: editingService.featured,
-          active: editingService.active
-        };
-        
-        const updatedService = await ServiceService.updateService(editingService._id, updateData);
-        setServices(services.map(s => s._id === updatedService._id ? updatedService : s));
-        setEditingService(null);
-        
-        toast({
-          title: "Service updated",
-          description: "The service has been updated successfully",
-          variant: "default",
-        });
-      }
+      // Handle real backend mode
+      const updateData = {
+        name: editingService.name,
+        description: editingService.description,
+        price: editingService.price,
+        supplierPrice: editingService.supplierPrice,
+        minQuantity: editingService.minQuantity,
+        maxQuantity: editingService.maxQuantity,
+        quantity: editingService.quantity,
+        deliverySpeed: editingService.deliverySpeed,
+        refillAvailable: editingService.refillAvailable,
+        popular: editingService.popular,
+        featured: editingService.featured,
+        active: editingService.active
+      };
+      
+      const updatedService = await ServiceService.updateService(editingService._id, updateData);
+      setServices(services.map(s => s._id === updatedService._id ? updatedService : s));
+      setEditingService(null);
+      
+      toast({
+        title: "Service updated",
+        description: "The service has been updated successfully",
+        variant: "default",
+      });
     } catch (error: any) {
       console.error('Error updating service:', error);
       toast({
@@ -430,13 +321,7 @@ const Pricing = () => {
   const handleDeleteService = async (serviceId: string) => {
     setIsDeleting(serviceId);
     try {
-      let success = false;
-      
-      if (mockMode) {
-        success = await PricingService.deletePriceTier(serviceId);
-      } else {
-        success = await ServiceService.deleteService(serviceId);
-      }
+      const success = await ServiceService.deleteService(serviceId);
       
       if (success) {
         setServices(services.filter(s => s._id !== serviceId));
@@ -463,38 +348,15 @@ const Pricing = () => {
   // Handle toggling popular status
   const handleTogglePopular = async (service: Service) => {
     try {
-      if (mockMode) {
-        // Handle mock mode
-        const mockTier: PriceTier = {
-          id: service._id,
-          service: service.type,
-          quantity: service.quantity || service.minQuantity || 100,
-          price: service.price,
-          originalPrice: service.originalPrice || service.price * 1.2,
-          popular: !service.popular
-        };
-        
-        const updatedTier = await PricingService.updatePriceTier(mockTier);
-        const updatedService = { ...service, popular: updatedTier.popular || false };
-        
-        setServices(services.map(s => s._id === updatedService._id ? updatedService : s));
-        
-        toast({
-          title: service.popular ? "Removed popular status" : "Marked as popular",
-          description: `The service has been ${service.popular ? 'removed from popular services' : 'marked as popular'}`,
-          variant: "default",
-        });
-      } else {
-        // Handle real backend mode
-        const updatedService = await ServiceService.togglePopular(service._id);
-        setServices(services.map(s => s._id === updatedService._id ? updatedService : s));
-        
-        toast({
-          title: service.popular ? "Removed popular status" : "Marked as popular",
-          description: `The service has been ${service.popular ? 'removed from popular services' : 'marked as popular'}`,
-          variant: "default",
-        });
-      }
+      // Handle real backend mode
+      const updatedService = await ServiceService.togglePopular(service._id);
+      setServices(services.map(s => s._id === updatedService._id ? updatedService : s));
+      
+      toast({
+        title: service.popular ? "Removed popular status" : "Marked as popular",
+        description: `The service has been ${service.popular ? 'removed from popular services' : 'marked as popular'}`,
+        variant: "default",
+      });
     } catch (error: any) {
       console.error('Error toggling popular status:', error);
       toast({
@@ -508,6 +370,28 @@ const Pricing = () => {
   // Helper function to capitalize first letter
   const capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  // Get service types based on category
+  const getServiceTypesForCategory = (category: string): { value: ServiceType; label: string }[] => {
+    switch (category) {
+      case 'YouTube':
+        return [
+          { value: 'subscribers', label: 'Subscribers' },
+          { value: 'likes', label: 'Likes' },
+          { value: 'views', label: 'Views' },
+          { value: 'comments', label: 'Comments' }
+        ];
+      case 'Instagram':
+      case 'TikTok':
+      default:
+        return [
+          { value: 'followers', label: 'Followers' },
+          { value: 'likes', label: 'Likes' },
+          { value: 'views', label: 'Views' },
+          { value: 'comments', label: 'Comments' }
+        ];
+    }
   };
 
   return (
@@ -552,6 +436,12 @@ const Pricing = () => {
             onClick={() => setCurrentFilter('followers')}
           >
             Followers
+          </Button>
+          <Button 
+            variant={currentFilter === 'subscribers' ? 'default' : 'outline'} 
+            onClick={() => setCurrentFilter('subscribers')}
+          >
+            Subscribers
           </Button>
           <Button 
             variant={currentFilter === 'likes' ? 'default' : 'outline'} 
@@ -865,10 +755,21 @@ const Pricing = () => {
                   id="category"
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
                   value={editingService.category || 'Instagram'}
-                  onChange={(e) => setEditingService({
-                    ...editingService,
-                    category: e.target.value
-                  })}
+                  onChange={(e) => {
+                    const newCategory = e.target.value;
+                    const serviceTypes = getServiceTypesForCategory(newCategory);
+                    const currentType = editingService.type;
+                    
+                    // If current type is not valid for new category, change to first valid type
+                    const isValidType = serviceTypes.some(st => st.value === currentType);
+                    const newType = isValidType ? currentType : serviceTypes[0].value;
+                    
+                    setEditingService({
+                      ...editingService,
+                      category: newCategory,
+                      type: newType
+                    });
+                  }}
                 >
                   <option value="Instagram">Instagram</option>
                   <option value="TikTok">TikTok</option>
@@ -1061,11 +962,16 @@ const Pricing = () => {
                 value={newService.category}
                 onChange={(e) => {
                   const newCategory = e.target.value;
+                  const serviceTypes = getServiceTypesForCategory(newCategory);
+                  const defaultType = serviceTypes[0].value;
+                  
                   setNewService(prev => ({
                     ...prev,
                     category: newCategory,
-                    name: `${newCategory} ${capitalize(prev.type)} - ${capitalize(prev.quality)}`,
-                    description: `High-quality ${newCategory} ${prev.type} with fast delivery`
+                    type: defaultType,
+                    name: `${newCategory} ${capitalize(defaultType)} - ${capitalize(prev.quality)}`,
+                    description: `High-quality ${newCategory} ${defaultType} with fast delivery`,
+                    supplierServiceId: getSupplierServiceId(defaultType, prev.quality)
                   }));
                 }}
               >
@@ -1093,10 +999,11 @@ const Pricing = () => {
                     }));
                   }}
                 >
-                  <option value="followers">Followers</option>
-                  <option value="likes">Likes</option>
-                  <option value="views">Views</option>
-                  <option value="comments">Comments</option>
+                  {getServiceTypesForCategory(newService.category).map(serviceType => (
+                    <option key={serviceType.value} value={serviceType.value}>
+                      {serviceType.label}
+                    </option>
+                  ))}
                 </select>
               </div>
               
@@ -1127,22 +1034,45 @@ const Pricing = () => {
             <div className="p-3 bg-muted rounded-md">
               <p className="text-sm font-medium mb-2">Supplier Service ID Reference:</p>
               <div className="grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  <span className="text-muted-foreground">Followers:</span>
-                  <div className="font-medium text-green-600">General: 2183, Premium: 3305</div>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Likes:</span>
-                  <div className="font-medium text-blue-600">General: 1782, Premium: 1761</div>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Views:</span>
-                  <div className="font-medium text-purple-600">General: 8577, Premium: 340</div>
-                </div>
-                <div>
-                  <span className="text-muted-foreground">Comments:</span>
-                  <div className="font-medium text-orange-600">General: 1234, Premium: 5678</div>
-                </div>
+                {newService.category === 'YouTube' ? (
+                  <>
+                    <div>
+                      <span className="text-muted-foreground">Subscribers:</span>
+                      <div className="font-medium text-green-600">General: 2183, Premium: 3305</div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Likes:</span>
+                      <div className="font-medium text-blue-600">General: 1782, Premium: 1761</div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Views:</span>
+                      <div className="font-medium text-purple-600">General: 8577, Premium: 340</div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Comments:</span>
+                      <div className="font-medium text-orange-600">General: 1234, Premium: 5678</div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <span className="text-muted-foreground">Followers:</span>
+                      <div className="font-medium text-green-600">General: 2183, Premium: 3305</div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Likes:</span>
+                      <div className="font-medium text-blue-600">General: 1782, Premium: 1761</div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Views:</span>
+                      <div className="font-medium text-purple-600">General: 8577, Premium: 340</div>
+                    </div>
+                    <div>
+                      <span className="text-muted-foreground">Comments:</span>
+                      <div className="font-medium text-orange-600">General: 1234, Premium: 5678</div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
             

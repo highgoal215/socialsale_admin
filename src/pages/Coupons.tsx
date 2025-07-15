@@ -37,48 +37,8 @@ import { Coupon } from '@/types/coupon';
 import { Switch } from '@/components/ui/switch';
 import { toast } from "@/hooks/use-toast";
 
-// Mock coupon data
-const mockCoupons: Coupon[] = [
-  {
-    id: '1',
-    code: 'WELCOME10',
-    type: 'percentage',
-    value: 10,
-    minCartValue: 0,
-    maxUses: 100,
-    usedCount: 42,
-    startDate: '2023-05-01T00:00:00Z',
-    endDate: '2023-12-31T23:59:59Z',
-    isActive: true,
-    services: null, // Applicable to all services
-  },
-  {
-    id: '2',
-    code: 'SUMMER20',
-    type: 'percentage',
-    value: 20,
-    minCartValue: 50,
-    maxUses: null, // Unlimited uses
-    usedCount: 156,
-    startDate: '2023-06-01T00:00:00Z',
-    endDate: '2023-08-31T23:59:59Z',
-    isActive: true,
-    services: ['followers', 'likes'],
-  },
-  {
-    id: '3',
-    code: 'FLAT15',
-    type: 'fixed',
-    value: 15,
-    minCartValue: 100,
-    maxUses: 50,
-    usedCount: 12,
-    startDate: '2023-07-15T00:00:00Z',
-    endDate: null, // No end date
-    isActive: false,
-    services: ['comments'],
-  },
-];
+// Empty coupon data - will be populated from backend
+const mockCoupons: Coupon[] = [];
 
 const Coupons = () => {
   const [searchQuery, setSearchQuery] = useState('');

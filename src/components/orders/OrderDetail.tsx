@@ -49,7 +49,7 @@ import { SupplierService, SupplierOrderRequest } from '@/services/supplier-servi
 export interface DetailedOrder {
   id: string;
   username: string;
-  serviceType: 'followers' | 'likes' | 'views' | 'comments';
+  serviceType: 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
   quantity: number;
   price: number;
   status: 'pending' | 'completed' | 'rejected' | 'processing';

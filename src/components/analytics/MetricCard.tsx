@@ -1,11 +1,11 @@
 
 import { Card } from '@/components/ui/card';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowDownRight, Heart, Eye, MessageCircle } from 'lucide-react';
+import { ArrowUpRight, ArrowDownRight, Heart, Eye, MessageCircle, Youtube } from 'lucide-react';
 import { ReactNode } from 'react';
 import { FaInstagram } from 'react-icons/fa';
 
-type MetricType = 'followers' | 'likes' | 'views' | 'comments';
+type MetricType = 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
 
 interface MetricCardProps {
   title: string;
@@ -21,6 +21,7 @@ export const MetricCard = ({ title, value, change, type, delay = 0 }: MetricCard
   // Icon mapping based on type
   const icons: Record<MetricType, ReactNode> = {
     followers: <FaInstagram size={20} />,
+    subscribers: <Youtube size={20} />,
     likes: <Heart size={20} />,
     views: <Eye size={20} />,
     comments: <MessageCircle size={20} />
@@ -29,6 +30,7 @@ export const MetricCard = ({ title, value, change, type, delay = 0 }: MetricCard
   // Background colors based on type
   const bgColors: Record<MetricType, string> = {
     followers: 'bg-blue-50 text-blue-600',
+    subscribers: 'bg-red-50 text-red-600',
     likes: 'bg-red-50 text-red-600',
     views: 'bg-purple-50 text-purple-600',
     comments: 'bg-green-50 text-green-600'

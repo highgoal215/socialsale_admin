@@ -36,54 +36,8 @@ import { ReviewDialog } from '@/components/reviews/ReviewDialog';
 import { ReviewDeleteDialog } from '@/components/reviews/ReviewDeleteDialog';
 import { Review } from '@/types/review';
 
-// Mock review data
-const mockReviews: Review[] = [
-  {
-    id: '1',
-    customerName: 'Emma Johnson',
-    avatarUrl: '/placeholder.svg',
-    serviceType: 'followers',
-    rating: 5,
-    review: 'Incredible service! I gained 500 followers in just 48 hours. They all appear to be real accounts, and my engagement has improved as well. Will definitely use again!',
-    date: '2023-06-15T10:30:00Z',
-    featured: true,
-    verified: true,
-    location: 'New York, USA'
-  },
-  {
-    id: '2',
-    customerName: 'David Chen',
-    serviceType: 'likes',
-    rating: 4,
-    review: 'Very happy with the service overall. The likes came in at a natural pace and seem to be from real accounts. I would have given 5 stars but it took slightly longer than expected.',
-    date: '2023-05-22T14:15:00Z',
-    featured: false,
-    verified: true,
-    location: 'Toronto, Canada'
-  },
-  {
-    id: '3',
-    customerName: 'Sophia Rodriguez',
-    avatarUrl: '/placeholder.svg',
-    serviceType: 'comments',
-    rating: 5,
-    review: 'The custom comments I received were thoughtful and relevant to my content. They sparked more engagement on my post and looked completely natural. Excellent service!',
-    date: '2023-07-03T09:45:00Z',
-    featured: true,
-    verified: true,
-    location: 'Miami, USA'
-  },
-  {
-    id: '4',
-    customerName: 'James Wilson',
-    serviceType: 'views',
-    rating: 3,
-    review: "The views came in quickly, but I didn't notice much of an impact on my other engagement metrics. Good service but not exceptional.",
-    date: '2023-04-18T16:20:00Z',
-    featured: false,
-    verified: false
-  },
-];
+// Empty review data - will be populated from backend
+const mockReviews: Review[] = [];
 
 const Reviews = () => {
   const [searchQuery, setSearchQuery] = useState('');

@@ -2,7 +2,7 @@
 import { Separator } from '@/components/ui/separator';
 import { ServiceIcon } from './ServiceIcon';
 
-type ServiceType = 'followers' | 'likes' | 'views' | 'comments';
+type ServiceType = 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
 
 interface OrderDetailsSectionProps {
   serviceType: ServiceType;

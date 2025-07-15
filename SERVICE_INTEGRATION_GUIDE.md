@@ -85,7 +85,7 @@ graph TD
 - **Purpose**: Create new service
 - **Required Fields**:
   - `name`: Service name
-  - `type`: Service type (followers, likes, views, comments)
+  - `type`: Service type (followers, subscribers, likes, views, comments)
   - `quality`: Quality tier (general, premium)
   - `supplierServiceId`: Supplier service ID
   - `description`: Service description
@@ -118,7 +118,7 @@ graph TD
 
 ### 1. Service Management Interface
 - **Service List**: Display all services in a table format
-- **Filtering**: Filter by service type (All, Followers, Likes, Views, Comments)
+- **Filtering**: Filter by service type (All, Followers, Subscribers, Likes, Views, Comments)
 - **Search**: Search through services
 - **Pagination**: Handle large numbers of services
 
@@ -160,7 +160,7 @@ try {
 ### Backend Error Handling
 ```javascript
 // Validation errors
-if (!['followers', 'likes', 'views', 'comments'].includes(type)) {
+    if (!['followers', 'subscribers', 'likes', 'views', 'comments'].includes(type)) {
   return next(new ErrorResponse('Invalid service type', 400));
 }
 
@@ -182,7 +182,7 @@ try {
 - **String Validation**: Non-empty strings for text fields
 
 ### Backend Validation
-- **Service Type**: Must be one of: followers, likes, views, comments
+- **Service Type**: Must be one of: followers, subscribers, likes, views, comments
 - **Quality**: Must be one of: general, premium
 - **Supplier Service ID**: Must match predefined mapping for type/quality combination
 - **Price Validation**: All price fields must be positive numbers

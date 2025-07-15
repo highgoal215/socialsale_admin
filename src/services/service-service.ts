@@ -2,7 +2,7 @@
 
 import ApiService from './api-services';
 
-export type ServiceType = 'followers' | 'likes' | 'views' | 'comments';
+export type ServiceType = 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
 export type ServiceQuality = 'general' | 'premium';
 
 export interface Service {
@@ -204,6 +204,7 @@ const ServiceService = {
   getSupplierServiceId: (type: ServiceType, quality: ServiceQuality): string => {
     const serviceIds = {
       followers: { general: '2183', premium: '3305' },
+      subscribers: { general: '2183', premium: '3305' },
       likes: { general: '1782', premium: '1761' },
       views: { general: '8577', premium: '340' },
       comments: { general: '1234', premium: '5678' }

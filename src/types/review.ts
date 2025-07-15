@@ -3,7 +3,7 @@ export interface Review {
   id: string;
   customerName: string;
   avatarUrl?: string;
-  serviceType: 'followers' | 'likes' | 'views' | 'comments';
+  serviceType: 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
   rating: number;
   review: string;
   date: string;

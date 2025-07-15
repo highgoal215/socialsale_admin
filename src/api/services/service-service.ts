@@ -2,7 +2,7 @@
 
 import ApiService from './api-services';
 
-export type ServiceType = 'followers' | 'likes' | 'views' | 'comments';
+export type ServiceType = 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
 export type ServiceQuality = 'regular' | 'premium';
 
 export interface Service {

@@ -2,7 +2,8 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 // Get the API URL from environment variables
-export const API_URL = import.meta.env.VITE_BACKEND_URL || 'https://api.likes.io/api';
+// export const API_URL = import.meta.env.VITE_BACKEND_URL || 'https://api.likes.io/api';
+export const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5005/api';
 
 // Create an Axios instance with default config
 const apiClient = axios.create({

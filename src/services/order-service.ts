@@ -4,7 +4,7 @@ import ApiService from './api-services';
 
 export type OrderStatus = 'pending' | 'processing' | 'completed' | 'partial' | 'canceled' | 'failed';
 export type PaymentStatus = 'pending' | 'completed' | 'failed' | 'refunded';
-export type ServiceType = 'followers' | 'likes' | 'views' | 'comments';
+export type ServiceType = 'followers' | 'subscribers' | 'likes' | 'views' | 'comments';
 export type ServiceQuality = 'regular' | 'premium';
 
 
