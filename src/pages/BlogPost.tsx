@@ -46,7 +46,7 @@ const BlogPostPage = () => {
       setLoading(false);
     }
   };
-
+  
   const loadCategories = async () => {
     try {
       setLoadingCategories(true);

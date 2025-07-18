@@ -23,6 +23,7 @@ import Coupons from "./pages/Coupons";
 import Reviews from "./pages/Reviews";
 import Notifications from "./pages/Notifications";
 import NotificationAnalytics from "./pages/NotificationAnalytics";
+import SEOSettings from "./pages/SEOSettings";
 import { NotificationProvider } from "@/context/NotificationContext";
 
 // Create QueryClient outside component to prevent recreation
@@ -122,6 +123,11 @@ const App = () => (
                 <Route path="/notification-analytics" element={
                   <AdminLayout>
                     <NotificationAnalytics />
+                  </AdminLayout>
+                } />
+                <Route path="/seo-settings" element={
+                  <AdminLayout>
+                    <SEOSettings />
                   </AdminLayout>
                 } />
 

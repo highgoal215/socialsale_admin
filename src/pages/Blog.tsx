@@ -60,6 +60,7 @@ const Blog = () => {
     try {
       setIsLoading(true);
       const fetchedPosts = await BlogService.getAllPosts();
+      console.log('Fetched posts:', fetchedPosts);
       setPosts(fetchedPosts);
     } catch (error) {
       console.error('Failed to load blog posts:', error);
@@ -139,6 +140,10 @@ const Blog = () => {
     }
   };
 
+  useEffect(()=>{
+    // console.log('FilteredPOst>>>>:', filteredPosts[0].imageUrl);
+    // console.log('Blog component rendered with categories:', categories);
+  },[filteredPosts]);
   const handleTogglePublish = async (postId: string) => {
     try {
       const post = posts.find(p => p._id === postId);

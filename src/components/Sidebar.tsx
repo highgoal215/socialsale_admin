@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Package, Settings, Heart, Eye, MessageCircle, Wallet, Coins, User, Edit, FileText, Tag, Star, FolderOpen, ChevronDown, Briefcase, Bell, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Package, Settings, Heart, Eye, MessageCircle, Wallet, Coins, User, Edit, FileText, Tag, Star, FolderOpen, ChevronDown, Briefcase, Bell, BarChart3, Globe } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { FaInstagram } from "react-icons/fa";
 
@@ -95,6 +95,7 @@ export const Sidebar = ({ isOpen, setIsOpen }: SidebarProps) => {
           <NavItem to="/reviews" icon={<Star size={20} />} label="Reviews" isOpen={isOpen} />
           <NavItem to="/notifications" icon={<Bell size={20} />} label="Notifications" isOpen={isOpen} />
           <NavItem to="/notification-analytics" icon={<BarChart3 size={20} />} label="Notification Analytics" isOpen={isOpen} />
+          <NavItem to="/seo-settings" icon={<Globe size={20} />} label="SEO Settings" isOpen={isOpen} />
 
           <NavItem to="/settings" icon={<Settings size={20} />} label="Settings" isOpen={isOpen} />
 

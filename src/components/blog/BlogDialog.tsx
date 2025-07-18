@@ -168,7 +168,7 @@ export function BlogDialog({ open, onOpenChange, categories, post, onSave }: Blo
       .replace(/^-+/, '')
       .replace(/-+$/, '');
   };
-
+console.log('BlogDialog rendered with bannerImage:', bannerImage);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
