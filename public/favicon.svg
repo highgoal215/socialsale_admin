@@ -1,7 +1,29 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="32" height="32" rx="6" fill="#8B5CF6"/>
-  <path d="M16 8C18.2091 8 20 9.79086 20 12C20 14.2091 18.2091 16 16 16C13.7909 16 12 14.2091 12 12C12 9.79086 13.7909 8 16 8Z" fill="white"/>
-  <path d="M24 20C24 22.2091 22.2091 24 20 24H12C9.79086 24 8 22.2091 8 20C8 17.7909 9.79086 16 12 16H20C22.2091 16 24 17.7909 24 20Z" fill="white"/>
-  <circle cx="16" cy="12" r="2" fill="#8B5CF6"/>
-  <circle cx="16" cy="20" r="2" fill="#8B5CF6"/>
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ee5a24;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Rounded background -->
+  <rect width="32" height="32" rx="8" fill="url(#bgGradient)"/>
+  
+  <!-- Main heart icon -->
+  <path d="M16 22.5C16 22.5 12 18.5 10 16.5C8 14.5 8 12 10 10.5C12 9 14 10 16 12C18 10 20 9 22 10.5C24 12 24 14.5 22 16.5C20 18.5 16 22.5 16 22.5Z" fill="url(#heartGradient)"/>
+  
+  <!-- Growth arrows -->
+  <path d="M6 8L8 6L10 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 6L24 8L26 6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M26 24L24 26L22 24" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Small accent dots -->
+  <circle cx="8" cy="12" r="1" fill="white" opacity="0.8"/>
+  <circle cx="24" cy="20" r="1" fill="white" opacity="0.8"/>
+  <circle cx="12" cy="26" r="1" fill="white" opacity="0.6"/>
 </svg> 
